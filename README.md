@@ -8,3 +8,4 @@
 - http://localhost:8888/limitsservices/px
 
 ## currency-exchange-service
+- http://localhost:8000/currency-exchange/from/EURO/to/XAF
