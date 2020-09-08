@@ -13,3 +13,7 @@
 
 ## currency-conversion-service
 - http://localhost:8100//current-converter/from/USD/to/XAF/quantitiy/10
+- http://localhost:8100//current-converter/from/EUR/to/XAF/quantitiy/10
+
+- http://localhost:8100/current-converter-feign/from/USD/to/XAF/quantitiy/10
+- http://localhost:8100/current-converter-feign/from/EUR/to/XAF/quantitiy/10

@@ -1,6 +1,7 @@
 package com.tchokoapps.spring.microservices.currencyconversionservice.controllers;
 
 import com.tchokoapps.spring.microservices.currencyconversionservice.beans.CurrencyConversionBean;
+import com.tchokoapps.spring.microservices.currencyconversionservice.proxy.CurrencyExchangeServiceProxy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,12 @@ import java.util.Objects;
 @RestController
 public class CurrencyConversionController {
 
+    private CurrencyExchangeServiceProxy currencyExchangeServiceProxy;
+
+    public CurrencyConversionController(CurrencyExchangeServiceProxy currencyExchangeServiceProxy) {
+        this.currencyExchangeServiceProxy = currencyExchangeServiceProxy;
+    }
+
     @GetMapping("/current-converter/from/{from}/to/{to}/quantitiy/{quantity}")
     public CurrencyConversionBean convertCurrency(@PathVariable String from, @PathVariable String to, @PathVariable BigDecimal quantity) {
         HashMap<String, String> uriVariables = new HashMap<>();
@@ -25,6 +32,15 @@ public class CurrencyConversionController {
                 CurrencyConversionBean.class, uriVariables);
 
         CurrencyConversionBean ccBeanResponse = responseEntity.getBody();
+
+        return new CurrencyConversionBean(Objects.requireNonNull(ccBeanResponse).getId(), ccBeanResponse.getFrom(), ccBeanResponse.getTo(),
+                ccBeanResponse.getConversionMultiple(), quantity, quantity.multiply(ccBeanResponse.getConversionMultiple()), ccBeanResponse.getPort());
+    }
+
+    @GetMapping("/current-converter-feign/from/{from}/to/{to}/quantitiy/{quantity}")
+    public CurrencyConversionBean convertCurrencyFeign(@PathVariable String from, @PathVariable String to, @PathVariable BigDecimal quantity) {
+
+        CurrencyConversionBean ccBeanResponse = currencyExchangeServiceProxy.retrieveExhangeValue(from, to);
 
         return new CurrencyConversionBean(Objects.requireNonNull(ccBeanResponse).getId(), ccBeanResponse.getFrom(), ccBeanResponse.getTo(),
                 ccBeanResponse.getConversionMultiple(), quantity, quantity.multiply(ccBeanResponse.getConversionMultiple()), ccBeanResponse.getPort());
