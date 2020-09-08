@@ -1,4 +1,4 @@
-package com.tchokoapps.spring.microservices.currencyexchangeservice;
+package com.tchokoapps.spring.microservices.currencyexchangeservice.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

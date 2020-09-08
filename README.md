@@ -9,3 +9,7 @@
 
 ## currency-exchange-service
 - http://localhost:8000/currency-exchange/from/EURO/to/XAF
+- http://localhost:8000/currency-exchange/from/USD/to/XAF
+
+## currency-conversion-service
+- http://localhost:8100//current-converter/from/USD/to/XAF/quantitiy/10
